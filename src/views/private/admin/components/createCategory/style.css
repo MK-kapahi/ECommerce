@@ -1,0 +1,22 @@
+.createCategoryForm {
+    width: 50%;
+}
+
+.category_heading {
+    font-size: 36px;
+    ;
+}
+
+.category-lable {
+    width: 30%;
+    padding: 0.8em;
+}
+
+.createCategoryForm form {
+    margin: 20px;
+}
+
+.createCategoryForm button {
+
+    margin-top: 30px;
+}
