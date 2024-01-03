@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import CustomInputFields from "../../../../../components/atoms/customInput";
+import React, { useState , useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CustomButton from "../../../../../components/atoms/customButton";
-import { ERROR_MESSAGES } from "../../../../../shared/Constant";
-import { createProduct, getCategory } from "../../../../../redux/action";
-import './style.css'
+import { useParams } from "react-router-dom";
+import { getProduct, updateProduct } from "../../../../../../../redux/action";
+import { ERROR_MESSAGES } from "../../../../../../../shared/Constant";
+import CustomButton from "../../../../../../../components/atoms/customButton";
+import CustomInputFields from "../../../../../../../components/atoms/customInput";
+import { getCategory } from "../../../../../../../redux/action";
 import { toast } from "react-toastify";
-
 const productFormInitialValue = {
     productTitle: "",
     productDescription: "",
     productPrice: "",
-    productQuantity: 0,
+    productQuantity: null ,
     productImage: "",
     categoryId: ""
-
 }
 
 const productFormError = {
@@ -26,11 +25,13 @@ const productFormError = {
     categoryId: "",
     error: ""
 }
-export default function CreateProduct() {
-
+export default function EditProduct() {
     const [productFeilds, setProductFeilds] = useState(productFormInitialValue);
     const dispatch = useDispatch();
     const data = useSelector(state => state?.categoryReducer?.payload)
+    const productData = useSelector(state => state?.singleProductReducer?.payload)
+    console.log(productData)
+    const {id} = useParams();
     const categories = data || [];
     const [productFeildsError, setProductFeildsError] = useState(productFormError)
     const [uploadpic, setUploadpic] = useState(null);
@@ -67,8 +68,6 @@ export default function CreateProduct() {
 
 
             case 'productQuantity':
-
-
                 setProductFeildsError(productFormError);
                 setProductFeilds((prevFields) => ({ ...prevFields, [field]: value }));
 
@@ -136,7 +135,8 @@ export default function CreateProduct() {
         formData.append('file', uploadpic)
         formData.append("category_id", categoryId)
 
-        dispatch(createProduct({ formData, handleResponse }))
+        // dispatch(createProduct({ formData, handleResponse }))
+        dispatch(updateProduct({id , formData}))
         resetForm()
 
     }
@@ -165,7 +165,14 @@ export default function CreateProduct() {
 
     useEffect(() => {
         dispatch(getCategory({}))
-
+        dispatch(getProduct({id}))
+         setProductFeilds({
+            productTitle: productData.title,
+            productDescription: productData.description,
+            productPrice: productData.price,
+            productQuantity: productData.quantity ,
+            categoryId: productData.categoryId
+         })
     }, [])
     return (
         <>
@@ -173,13 +180,13 @@ export default function CreateProduct() {
                 <div className="conatiner">
                     <div className="row">
                         <div className="productForm" >
-                            <h3> Add Product </h3>
+                            <h3> Edit Product </h3>
                             <form encType='multipart/form-data' >
 
                                 <div className="mb-3 row">
                                     <label htmlFor="staticEmail" className="col-sm-2 col-form-label" >Title </label>
                                     <div className="col-sm-10">
-                                        <CustomInputFields type="text" className="form-control" id="staticEmail" value={productFeilds.productTitle} placeholder="abc..." onChange={(e) => validateInput("productTitle", e.target.value, 15, ERROR_MESSAGES, setProductFeildsError)} ></CustomInputFields>
+                                        <CustomInputFields type="text" className="form-control" id="staticEmail" value={productFeilds?.productTitle} placeholder="abc..." onChange={(e) => validateInput("productTitle", e.target.value, 15, ERROR_MESSAGES, setProductFeildsError)} ></CustomInputFields>
 
                                     </div>
                                     {productFeildsError.productTitle ? <label name="text-danger">{productFeildsError.productTitle}</label> : null}
@@ -187,14 +194,14 @@ export default function CreateProduct() {
                                 <div className="mb-3 row">
                                     <label htmlFor="staticEmail1" className="col-sm-2 col-form-label">Description </label>
                                     <div className="col-sm-10">
-                                        <CustomInputFields type="text" className="form-control" id="staticEmail1" value={productFeilds.productDescription} placeholder="......" onChange={(e) => validateInput("productDescription", e.target.value, 30, ERROR_MESSAGES, setProductFeildsError)} ></CustomInputFields>
+                                        <CustomInputFields type="text" className="form-control" id="staticEmail1" value={productFeilds?.productDescription} placeholder="......" onChange={(e) => validateInput("productDescription", e.target.value, 30, ERROR_MESSAGES, setProductFeildsError)} ></CustomInputFields>
                                     </div>
                                     {productFeildsError.productDescription ? <label className="text-danger">{productFeildsError.productDescription}</label> : null}
                                 </div>
                                 <div className="mb-3 row">
                                     <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Price</label>
                                     <div className="col-sm-10">
-                                        <CustomInputFields type="text" className="form-control" id="inputPassword" value={productFeilds.productPrice} onChange={(e) => validateInput("productPrice", e.target.value, 8, ERROR_MESSAGES, setProductFeildsError)}></CustomInputFields>
+                                        <CustomInputFields type="text" className="form-control" id="inputPassword" value={productFeilds?.productPrice} onChange={(e) => validateInput("productPrice", e.target.value, 8, ERROR_MESSAGES, setProductFeildsError)}></CustomInputFields>
 
                                     </div>
                                     {productFeildsError.productPrice ? <label Name="text-danger">{productFeildsError.productPrice}</label> : null}
@@ -202,7 +209,7 @@ export default function CreateProduct() {
                                 <div className="mb-3 row">
                                     <label htmlFor="staticEmail2" className="col-sm-2 col-form-label">Quantity</label>
                                     <div className="col-sm-10">
-                                        <CustomInputFields type="number" className="form-control" id="staticEmail2" value={productFeilds.productQuantity} placeholder="91......" onChange={(e) => validateInput("productQuantity", e.target.value, 10, ERROR_MESSAGES, setProductFeildsError)}></CustomInputFields>
+                                        <CustomInputFields type="number" className="form-control" id="staticEmail2" value={productFeilds?.productQuantity} placeholder="91......" onChange={(e) => validateInput("productQuantity", e.target.value, 10, ERROR_MESSAGES, setProductFeildsError)}></CustomInputFields>
 
                                     </div>
                                     {productFeildsError.productQuantity ? <label className="text-danger">{productFeildsError.productQuantity}</label> : null}
@@ -219,7 +226,7 @@ export default function CreateProduct() {
                                 <div className="mb-3 row justify-content-center">
                                     <div className="dropdown col-6">
                                         <select className="form-select" aria-label="Default select example" onChange={handleSelectedData}>
-                                            <option value="0-150">Select Category </option>
+                                            <option value={productFeilds.categoryId}>Select Category </option>
                                             {categories.map((element) => {
                                                 return (
 
@@ -239,7 +246,7 @@ export default function CreateProduct() {
                                 </div>
 
                                 <div className="mb-3 row button justify-content-center" >
-                                    <CustomButton className="btn btn-primary col-sm-4 btn-submit" onClick={handleSubmit} >submit </CustomButton>
+                                    <CustomButton className="btn btn-primary col-sm-4 btn-submit" onClick={handleSubmit} > Update </CustomButton>
 
                                 </div>
                             </form>

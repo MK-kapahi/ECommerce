@@ -2,12 +2,14 @@ export const ERROR_MESSAGES = {
     ENTER_ALL_FIELDS: "All fields are mandatory",
     ENTER_VALID_LENGTH: "enter Name with atleast more than 2 character",
     ENTER_BELOW_LENGTH_LIMIT: (length) => (`Enter Character less than ${length + 1} only`),
+    SELECT_IMAGE :" IMAGE SHOULD BE SELECTED",
     ENTER_VALID_EMAIL: "Enter valid email",
     ENTER_AGE_IN_RANGE: "Enter age between 0-100 and numeric value",
     ENTER_NUMBER_ONLY: "Enter number only ",
     ENTER_VALID_CONTACT_NUMBER: "Enter a valid conatct nuber",
     ENTER_ALPHABETS_ONLY: "Enter alphabets only (do not Enter numeric value , special character or space bar",
-    ENTER_VALID_PASSWORD: ""
+    ENTER_VALID_PASSWORD: "",
+    SELECT_CATEGORY : "SELECT CATEGORY"
   }
   
   export const REGEX = {
@@ -23,16 +25,23 @@ export const ERROR_MESSAGES = {
   {
     LOGIN :"login",
     REGISTER : "register",
-    GET: "user",
+    GET_USERS: "users",
     POST: "addUser",
     UPLOADIMAGE: "upload",
     DELETE: "deleteUser",
+    DELETE_PRODUCT : "deleteProduct",
     UPDATE: "updateUser",
-    FIND: "findUser/",
+    UPDATE_PRODUCT : "updateProduct",
+    FIND_USER: "getAUser/",
+    FIND_PRODUCT :"getAProduct/",
     LOGOUT : "logout",
     DATA : "getData",
     FILTER : "filter",
-    SEARCH :"searchUser"
+    SEARCH_USER :"searchUser/",
+    CREATE_CATEGORY : "createCategory",
+    GET_CATEGORY : "getCategory",
+    ADD_PRODUCT : "createProduct",
+    GET_PRODUCT : "getProduct",
   }  
 
 
@@ -50,6 +59,11 @@ export const ERROR_MESSAGES = {
   export const adminRoutes = {
     DASHBOARD : "dashboard",
     CREATE_CATEGORY : "category",
-    CREATE_PRODUCT : "product"
+    CREATE_PRODUCT : "product",
+    USERS : "allUsers",
+    PRODUCTS :"allProducts",
+    UPDATE :"allUsers/update/:id",
+    UPDATE_PRODUCT :"allProducts/update/:id",
+    
 
   }

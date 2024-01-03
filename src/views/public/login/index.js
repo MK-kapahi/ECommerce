@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ERROR_MESSAGES, REGEX, URL, adminRoutes, routes } from "../../../shared/Constant";
 import { useDispatch } from "react-redux";
 import { LoginUser } from "../../../redux/action";
+import { toast } from "react-toastify";
 
 const initialFeilds = {
     email: "",
@@ -94,7 +95,7 @@ export default function Login() {
             password: password
         }
 
-        dispatch(LoginUser({ data , loginResponse }))
+        dispatch(LoginUser({ data, loginResponse }))
     }
     const navigateToRegister = () => {
         navigate("/signUp")
@@ -102,9 +103,12 @@ export default function Login() {
     const loginResponse = (res) => {
         console.log(res);
         if (res.status === 200) {
+            toast.success("Login SucessFull", {
+                position: toast.POSITION.TOP_RIGHT,
+            })
             if (res.data.data.role === 1) {
-              
-                navigate("/"+routes.ADMIN+adminRoutes.DASHBOARD)
+
+                navigate(routes.ADMIN + "/" + adminRoutes.DASHBOARD)
             }
         }
     }

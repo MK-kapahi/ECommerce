@@ -1,0 +1,12 @@
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    font-size: 0.9em;
+    color: #2c0000;
+}
+
+.productForm h3
+{
+  font-size: 36px;
+}
