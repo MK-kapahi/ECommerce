@@ -1,3 +1,4 @@
+import { useState } from "react";
 export const ERROR_MESSAGES = {
     ENTER_ALL_FIELDS: "All fields are mandatory",
     ENTER_VALID_LENGTH: "enter Name with atleast more than 2 character",
@@ -54,6 +55,10 @@ export const ERROR_MESSAGES = {
   }
 
   export const userRoutes = {
+    DASHBOARD : "dashboard",
+    PRODUCT : "showProducts",
+    CART : "cart",
+    BUY : "buyProduct"
   }
 
   export const adminRoutes = {
@@ -64,6 +69,5 @@ export const ERROR_MESSAGES = {
     PRODUCTS :"allProducts",
     UPDATE :"allUsers/update/:id",
     UPDATE_PRODUCT :"allProducts/update/:id",
-    
 
   }

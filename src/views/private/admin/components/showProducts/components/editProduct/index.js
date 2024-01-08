@@ -30,7 +30,6 @@ export default function EditProduct() {
     const dispatch = useDispatch();
     const data = useSelector(state => state?.categoryReducer?.payload)
     const productData = useSelector(state => state?.singleProductReducer?.payload)
-    console.log(productData)
     const {id} = useParams();
     const categories = data || [];
     const [productFeildsError, setProductFeildsError] = useState(productFormError)
@@ -134,8 +133,6 @@ export default function EditProduct() {
         formData.append("productQuantity", productQuantity)
         formData.append('file', uploadpic)
         formData.append("category_id", categoryId)
-
-        // dispatch(createProduct({ formData, handleResponse }))
         dispatch(updateProduct({id , formData}))
         resetForm()
 
@@ -167,11 +164,11 @@ export default function EditProduct() {
         dispatch(getCategory({}))
         dispatch(getProduct({id}))
          setProductFeilds({
-            productTitle: productData.title,
-            productDescription: productData.description,
-            productPrice: productData.price,
-            productQuantity: productData.quantity ,
-            categoryId: productData.categoryId
+            productTitle: productData?.title,
+            productDescription: productData?.description,
+            productPrice: productData?.price,
+            productQuantity: productData?.quantity ,
+            categoryId: productData?.categoryId
          })
     }, [])
     return (
@@ -247,7 +244,6 @@ export default function EditProduct() {
 
                                 <div className="mb-3 row button justify-content-center" >
                                     <CustomButton className="btn btn-primary col-sm-4 btn-submit" onClick={handleSubmit} > Update </CustomButton>
-
                                 </div>
                             </form>
                         </div>

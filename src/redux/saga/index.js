@@ -4,7 +4,7 @@ import { ActionStates } from "../../redux/action/actionState";
 import { URL, apiEndPoint } from "../../shared/Constant";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { getCategory, getUsersData, setAllProdcts, setCategory, setProduct, setUser, setUserData } from "../action";
+import { getCategory, getUsersData, setAllProdcts, setCartElements, setCategory, setProduct, setUser, setUserData } from "../action";
 const option = {
     withCredentials: 'include',
 }
@@ -30,7 +30,7 @@ function* login({ payload }) {
 
     catch (error) {
         console.log(error)
-        toast.error(error.data.message, {
+        toast.error(error?.response?.data?.message, {
             position: toast.POSITION.TOP_RIGHT,
         })
     }
@@ -43,6 +43,9 @@ function* registerUser({ payload }) {
         payload?.AccountCreateResponse(response)
     } catch (error) {
         payload?.AccountCreateResponse(error)
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error)
     }
 }
@@ -53,6 +56,9 @@ function* categoryAdd({ payload }) {
         console.log(response)
         payload?.handleResponse(response)
     } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error)
     }
 }
@@ -64,6 +70,9 @@ function* categoryList({ payload }) {
         yield put(setCategory(response.data))
 
     } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error)
     }
 }
@@ -75,6 +84,9 @@ function* addProduct({ payload }) {
         console.log(response)
         payload?.handleResponse(response)
     } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error)
     }
 }
@@ -85,6 +97,9 @@ function* logout({ payload }) {
         payload?.handleResponse(response)
         localStorage.clear()
     } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error)
     }
 }
@@ -97,6 +112,9 @@ function* getUser(payload) {
         console.log(res)
         yield put(setUserData(res?.data));
     } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error, "error in getting User")
     }
 }
@@ -104,10 +122,13 @@ function* getUser(payload) {
 function* getProduct({ payload }) {
     try {
         const res = yield axios.get(
-            URL + apiEndPoint.GET_PRODUCT, option
+            URL + apiEndPoint.GET_PRODUCT + "?limit=" + payload?.limit + "&skip=" + payload?.skip, option
         );
         yield put(setAllProdcts(res?.data));
     } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error, "error in getting User")
     }
 }
@@ -116,10 +137,12 @@ function* getUserById({ payload }) {
 
     try {
         const res = yield axios.get(URL + apiEndPoint.FIND_USER + payload?.id, option)
-        console.log(res)
         yield put(setUser(res?.data))
     }
     catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
         console.log(error)
     }
 }
@@ -138,6 +161,7 @@ function* getProductById({ payload }) {
 function* updateUser(payload) {
     try {
         const res = yield axios.put(URL + apiEndPoint.UPDATE + "/" + payload?.payload?.id, payload?.payload?.data, option)
+        console.log(res)
         if (res.status === 200) {
 
             // payload?.payload?.success("User Updated Successfully")
@@ -197,6 +221,14 @@ function* updateProduct(payload) {
         console.log(error, "error in updating  user")
     }
 }
+function* cartElements({ payload }) {
+   console.log(payload)
+    yield put(setCartElements(payload?.cartList))
+    toast.success("Element Added to cart", {
+        position: toast.POSITION.TOP_RIGHT,
+    }
+    )
+}
 function* Saga() {
     yield all([
         takeLatest(ActionStates.LOGIN, login),
@@ -212,7 +244,8 @@ function* Saga() {
         takeLatest(ActionStates.UPDATE_USER, updateUser),
         takeLatest(ActionStates.DELETE_USER, deleteUser),
         takeLatest(ActionStates.DELETE_PRODUCT, deleteProduct),
-        takeLatest(ActionStates.UPDATE_PRODUCT, updateProduct)
+        takeLatest(ActionStates.UPDATE_PRODUCT, updateProduct),
+        takeLatest(ActionStates.ADD_TO_CART, cartElements),
     ])
 }
 

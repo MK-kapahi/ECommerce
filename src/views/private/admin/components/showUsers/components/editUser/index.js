@@ -31,6 +31,7 @@ export default function EditUser() {
     const navigate = useNavigate()
 
     const data = useSelector(state => state?.userReducer?.payload)
+    console.log(data)
     const validateInput = (field, value, MINLENGTH, errMsg, setErrorState) => {
         switch (field) {
             case "name":
@@ -87,11 +88,8 @@ export default function EditUser() {
             email: email,
         }
 
-        dispatch(updateUser({id ,data}))
+        dispatch(updateUser({id ,data , EditUserResponse}))
         resetForm();
-    }
-    const navigateToLogin = () => {
-        navigate("/login")
     }
 
     const resetForm = () => {
@@ -103,7 +101,7 @@ export default function EditUser() {
         console.log(response)
         if (response.status === 200) {
 
-            toast.success("Account Create Successfullly "
+            toast.success("User Edited  Successfullly "
                 , {
                     position: toast.POSITION.TOP_RIGHT,
                 })
@@ -120,8 +118,8 @@ export default function EditUser() {
     useEffect(() => {
        dispatch(getUser({id}))
         setFields({
-            name : data.name, 
-            email : data.email
+            name : data?.name, 
+            email : data?.email
         })
     }, [])
     return (
@@ -134,7 +132,7 @@ export default function EditUser() {
                             <div className="agileits-top">
                                 <form>
                                     <CustomInputFields className="text" value={fields?.name} type="text" name="Username" placeholder="Username" required onChange={(e) => validateInput("name", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
-                                    {errorFields.name ? <label className="text-danger">{errorFields.name}</label> : null}
+                                    {errorFields.name ? <label className="text-danger">{errorFields?.name}</label> : null}
                                     <CustomInputFields className="text email" value={fields?.email} type="email" name="email" placeholder="Email" required onChange={(e) => validateInput("email", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
                                     {errorFields.email ? <label className="text-danger">{errorFields?.email}</label> : null}
                                     <CustomButton type="button" className="btn btn-info text registerButton" onClick={handleSubmit} > Update  </CustomButton>

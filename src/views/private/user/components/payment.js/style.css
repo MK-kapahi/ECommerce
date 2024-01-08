@@ -1,0 +1,24 @@
+.heading 
+{
+    color: black !important;
+    font-size: 36px;
+}
+ label 
+{
+ font-size: 20px !important;
+}
+.input-text
+{
+    width: 70% !important;
+}
+
+.paymentPage
+{
+    background-color:  #c6f1f5;;
+}
+
+.buy_button
+{
+    width: 40%;
+
+}

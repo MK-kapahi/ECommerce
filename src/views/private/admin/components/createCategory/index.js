@@ -5,6 +5,7 @@ import './style.css'
 import { ERROR_MESSAGES } from "../../../../../shared/Constant";
 import { useDispatch } from "react-redux";
 import { addCategory } from "../../../../../redux/action";
+import { toast } from "react-toastify";
 
 const createCategoryFormInputField = {
     category: ""
@@ -54,12 +55,20 @@ export default function CreateCategory() {
 
         dispatch(addCategory({data , handleResponse}))
 
-        
+        resetForm()
 
     }
 
+    const resetForm = () =>{
+        setFormFeild(createCategoryFormInputField)
+    }
     const handleResponse = (response) =>{
-        console.log(response)
+        if (response.status === 200) {
+
+            toast.success("category Added Sucessfully ", {
+                position: toast.POSITION.TOP_RIGHT,
+            })
+        }
     }
     return (
         <>

@@ -138,3 +138,17 @@ export const deleteUser= (payload) =>{
     payload
   }
 }
+
+export const addToCart = (payload) =>{
+  return {
+    type : ActionStates.ADD_TO_CART,
+    payload
+  }
+}
+
+export const setCartElements = ( payload ) =>{
+  return {
+    type : ActionStates.SET_CART_ELEMENTS,
+    payload
+  }
+}

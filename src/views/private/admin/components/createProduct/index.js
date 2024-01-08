@@ -142,6 +142,7 @@ export default function CreateProduct() {
     }
 
     const handleSelectedData = (e) => {
+        console.log(e.target.value)
         setcategoryId(e.target.value)
     }
 
