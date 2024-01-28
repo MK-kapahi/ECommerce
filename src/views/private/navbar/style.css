@@ -3,3 +3,22 @@
     background-color: #c6ffda !important;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.active
+{
+    background-color: #0d6efd;
+    color: white !important;
+    font-size: 18px;
+    border-radius: 30px;
+}
+
+.image-container
+{
+    width: 80px;
+}
+
+.name:hover
+{
+    font-size: 22px;
+    cursor: pointer;
+}

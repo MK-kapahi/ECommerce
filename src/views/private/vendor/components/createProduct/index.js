@@ -142,6 +142,7 @@ export default function CreateProduct() {
     }
 
     const handleSelectedData = (e) => {
+        console.log(e.target.value)
         setcategoryId(e.target.value)
     }
 
@@ -170,7 +171,7 @@ export default function CreateProduct() {
     return (
         <>
             <section>
-                <div className="conatiner">
+                <div className="container">
                     <div className="row">
                         <div className="productForm" >
                             <h3> Add Product </h3>

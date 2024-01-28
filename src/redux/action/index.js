@@ -8,7 +8,7 @@ export const LoginUser = (payload) => {
   }
 }
 
-export const logoutUser = (payload) =>{
+export const logoutUser = (payload) => {
   return {
     type: ActionStates.LOGOUT,
     payload
@@ -68,22 +68,23 @@ export const setUserData = (payload) => {
   }
 }
 
-export const getAllProducts = (payload) =>{
+export const getAllProducts = (payload) => {
+  console.log(payload)
   return {
-    type : ActionStates.GET_ALL_PRODUCTS,
+    type: ActionStates.GET_ALL_PRODUCTS,
     payload
   }
 }
 
-export const setAllProdcts = (payload) =>{
+export const setAllProdcts = (payload) => {
   return {
-    type : ActionStates.SET_ALL_PRODUCTS , 
+    type: ActionStates.SET_ALL_PRODUCTS,
     payload
   }
 }
 
-export const getUser = (payload) =>{
-  
+export const getUser = (payload) => {
+
   return {
     type: ActionStates.GET_USER,
     payload
@@ -97,8 +98,8 @@ export const setUser = (payload) => {
   }
 }
 
-export const getProduct = (payload) =>{
-  
+export const getProduct = (payload) => {
+
   return {
     type: ActionStates.GET_PRODUCT,
     payload
@@ -112,29 +113,171 @@ export const setProduct = (payload) => {
   }
 }
 
-export const updateUser = (payload) =>{
+export const updateUser = (payload) => {
   return {
-    type: ActionStates.UPDATE_USER ,
+    type: ActionStates.UPDATE_USER,
     payload
   }
 }
-export const updateProduct= (payload) =>{
+export const updateProduct = (payload) => {
   return {
-    type: ActionStates.UPDATE_PRODUCT ,
-    payload
-  }
-}
-
-export const deleteProduct= (payload) =>{
-  return {
-    type: ActionStates.DELETE_PRODUCT ,
+    type: ActionStates.UPDATE_PRODUCT,
     payload
   }
 }
 
-export const deleteUser= (payload) =>{
+export const deleteProduct = (payload) => {
   return {
-    type: ActionStates.DELETE_USER ,
+    type: ActionStates.DELETE_PRODUCT,
     payload
   }
 }
+
+export const deleteUser = (payload) => {
+  return {
+    type: ActionStates.DELETE_USER,
+    payload
+  }
+}
+
+export const addToCart = (payload) => {
+  return {
+    type: ActionStates.ADD_TO_CART,
+    payload
+  }
+}
+
+export const setCartElements = (payload) => {
+  return {
+    type: ActionStates.SET_CART_ELEMENTS,
+    payload
+  }
+}
+
+export const setEditedCartElements = (payload) => {
+  return {
+    type: ActionStates.SET_EDITED_CART,
+    payload
+  }
+}
+
+export const payByPaypal = (payload) => {
+  return {
+    type: ActionStates.PAYPAL_PAYMENT,
+    payload
+  }
+}
+export const stripePayment = (payload) => {
+  return {
+    type: ActionStates.STRIPE_PAYMENT,
+    payload
+  }
+}
+
+export const confirmStripePayment = (payload) => {
+  return {
+    type: ActionStates.CONFIRM_STRIPE_PAYMENT,
+    payload
+  }
+}
+
+export const editCart = (payload) => {
+  return {
+    type: ActionStates.EDIT_CART,
+    payload
+  }
+}
+
+export const setCategoryId = (payload) => {
+  console.log(payload)
+  return {
+    type: ActionStates.SET_CATEGORY_ID,
+    payload,
+  };
+};
+
+export const setSearchedValue = (value) => {
+  return {
+    type: ActionStates.SET_SEARCHED_VALUE,
+    payload: value,
+  };
+}
+
+
+export const incrementQuantity = (payload) => {
+  return {
+    type: ActionStates.INCREMENT_QUANTITY,
+    payload
+  };
+}
+
+export const decrementQuantity = (payload) => {
+  return {
+    type: ActionStates.DECREMENT_QUANTITY,
+    payload
+  };
+}
+
+export const emptyCart = (payload) => {
+  return {
+    type: ActionStates.EMPTY_CART,
+    payload
+  }
+}
+
+export const requestOrder = (payload) => {
+  return {
+    type: ActionStates.REQUEST_ORDER,
+    payload
+  }
+}
+
+export const addAddress = (payload) => {
+  return {
+    type: ActionStates.ADD_ADDRESS,
+    payload
+  }
+}
+
+export const getAddress = (payload) => {
+  return {
+    type: ActionStates.GET_ADDRESS,
+    payload
+  }
+}
+
+export const setAddress = (payload) => {
+  return {
+    type: ActionStates.SET_ADDRESS,
+    payload
+  }
+}
+
+export const assignRole = (payload) => {
+  return {
+    type: ActionStates.ASSIGN_ROLE,
+    payload
+  }
+}
+
+export const editOrderStatus = (payload) => {
+  return {
+    type: ActionStates.EDIT_ORDER_STATUS,
+    payload
+  }
+}
+
+export const getOrders = (payload) => {
+  return {
+    type: ActionStates.GET_ORDERS,
+    payload
+  }
+}
+
+export const setOrders = (payload) => {
+  return {
+    type: ActionStates.SET_ORDERS,
+    payload
+  }
+}
+

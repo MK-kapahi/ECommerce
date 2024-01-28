@@ -9,4 +9,12 @@ input[type="password"] {
 .productForm h3
 {
   font-size: 36px;
+ 
+}
+
+.productForm 
+{
+  width: 70%;
+  padding: 20px;
+  border: 2px solid grey;
 }

@@ -1,16 +1,24 @@
 
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, getAllProducts, getUsersData } from "../../../../../redux/action";
 import CustomButton from "../../../../../components/atoms/customButton";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../../../../components/cells/customPagination.js";
 
 export default function ShowProducts() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const categoryId = useSelector(state => state?.categoryIdReducer?.categoryId)
+    const searchString = useSelector(state => state?.searchedValueReducer)
+    const [itemPerPage, setItemPerPage] = useState(5)
+    const [skip, setSkip] = useState(0)
+    const [limit, setLimit] = useState(itemPerPage);
+    const [currentPage, setCurrentPage] = useState(1)
     const productData = useSelector(state => state?.productsReducer?.payload)
-    const data = productData || [];
+    const data =  productData?.result || [];
+    console.log(productData)
     const HeadingArray = {
         TITLE: {
             title: "Title",
@@ -42,15 +50,15 @@ export default function ShowProducts() {
     };
 
     const deleteSelectedUser = (id) => {
-       dispatch(deleteProduct({id}))
+        dispatch(deleteProduct({ id }))
     }
 
     const updateUser = (id) => {
         navigate(`update/${id}`);
     }
     useEffect(() => {
-        dispatch(getAllProducts({}))
-    }, [])
+        dispatch(getAllProducts({ skip, limit ,searchString , categoryId}))
+    }, [limit, skip,searchString , categoryId])
     return (
         <>
 
@@ -100,6 +108,7 @@ export default function ShowProducts() {
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination currentPage={currentPage} itemsPerPage={itemPerPage} pageCount={ Math.ceil(productData?.count / itemPerPage)} setSkip={setSkip} setCurrentPage={setCurrentPage} />
                     </div>
                 </div>
             </section>

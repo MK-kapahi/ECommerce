@@ -3,7 +3,7 @@ import CustomInputFields from "../../../components/atoms/customInput";
 import "./style.css"
 import CustomButton from "../../../components/atoms/customButton";
 import { useNavigate } from "react-router-dom";
-import { ERROR_MESSAGES, REGEX, URL, adminRoutes, routes } from "../../../shared/Constant";
+import { ERROR_MESSAGES, REGEX, URL, adminRoutes, routes, userRoutes, vendorRoutes } from "../../../shared/Constant";
 import { useDispatch } from "react-redux";
 import { LoginUser } from "../../../redux/action";
 import { toast } from "react-toastify";
@@ -108,7 +108,21 @@ export default function Login() {
             })
             if (res.data.data.role === 1) {
 
-                navigate(routes.ADMIN + "/" + adminRoutes.DASHBOARD)
+                navigate(routes.ADMIN + "/" + adminRoutes.PRODUCTS)
+            }
+            if (res.data.data.role === 2) {
+
+                navigate(routes.USER + "/" + userRoutes.DASHBOARD)
+            }
+
+            if (res.data.data.role === 3) {
+
+                navigate(routes.VENDOR + "/" + vendorRoutes.DASHBOARD)
+            }
+
+            if(res.data.data.role === 0)
+            {
+                navigate(routes.NO_ROLE)
             }
         }
     }
