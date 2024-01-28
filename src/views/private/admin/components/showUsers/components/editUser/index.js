@@ -105,6 +105,7 @@ export default function EditUser() {
                 , {
                     position: toast.POSITION.TOP_RIGHT,
                 })
+                navigate("/admin/allUsers")
         }
 
         else {
@@ -117,6 +118,7 @@ export default function EditUser() {
 
     useEffect(() => {
        dispatch(getUser({id}))
+       console.log(data)
         setFields({
             name : data?.name, 
             email : data?.email

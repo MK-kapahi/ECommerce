@@ -1,16 +1,15 @@
 /**********  Footer-Section CSS Code Starts  **********/
 .footer {
-    background:  #c6ffda;
-    padding: 50px 0px;
-    box-shadow: 0 4px 8px 20px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background:  #212529;
+    padding: 20px 0px;
   }
   .quicklink-menu {
     list-style: none;
     padding-left: 10px;
-    color: black;
+    color: white;
   }
   .quicklink-menu li a {
-    color: black;
+    color: white;
     /* color: #fff; */
     line-height: 2.5;
     font-size: 15px;
@@ -31,7 +30,7 @@
   .quicklink-heading {
     font-size: 18px;
     font-weight: bold;
-    color: black;
+    color: white;
     font-family : "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-bottom: 10px;
   }
@@ -44,7 +43,7 @@
     font-size: 20px;
   }
   .get-in-touch li {
-    color: black;
+    color: white;
     line-height: 2.5;
     font-size: 15px;
     text-decoration: none;
@@ -53,14 +52,14 @@
   .footer-e-mail {
     font-size: 15px;
     font-weight: bold;
-    color: black;
+    color: white;
     font-family : "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-decoration: none;
   }
   .footer-website {
     font-size: 12px;
     font-weight: bold;
-    color: black;
+    color: white;
     font-family :"Helvetica Neue", Helvetica, Arial, sans-serif;
     text-decoration: none;
   }
@@ -74,6 +73,12 @@
     color: #fff;
     font-family : Helvetica Neue, Helvetica, Arial, sans-serif;
     text-align: center;
+  }
+
+  .container-footer
+  {
+    margin: 0 auto;
+    padding: 20px 20px;
   }
   /**********   Footer-Section CSS Code Ends  **********/
   

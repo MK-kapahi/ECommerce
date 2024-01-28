@@ -4,7 +4,7 @@ import './style.css'
 export default function Footer() {
     return (<>
         <div className="width-100 margin-top-50 footer">
-            <div className="container d-flex justify-content-between">
+            <div className="container-footer d-flex justify-content-between">
                 <div className="width-25">
                     <h2 className="quicklink-heading">Account Detail</h2>
                     <ul className="quicklink-menu">

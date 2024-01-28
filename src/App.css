@@ -3,5 +3,10 @@
   text-align: center;
 }
 
+.container 
+{
+  min-height: 500px;
+}
+
 
 

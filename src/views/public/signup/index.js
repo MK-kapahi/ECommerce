@@ -108,36 +108,34 @@ export default function SignUp() {
             password: password
         }
 
-        dispatch(createAccount({ data , AccountCreateResponse }))
+        dispatch(createAccount({ data, AccountCreateResponse }))
         resetForm();
     }
     const navigateToLogin = () => {
         navigate("/login")
     }
 
-    const resetForm = () =>{
+    const resetForm = () => {
         setFields(initialFeilds);
         setErrorFields(errorInitialFeilds);
     }
 
-    const AccountCreateResponse = (response) =>{
+    const AccountCreateResponse = (response) => {
         console.log(response)
-        if(response.status === 200)
-        {
+        if (response.status === 200) {
 
             toast.success("Account Create Successfullly "
-            , {
-                position: toast.POSITION.TOP_RIGHT,
-            })
+                , {
+                    position: toast.POSITION.TOP_RIGHT,
+                })
             navigate("/login")
         }
 
-        else
-        {
+        else {
             toast.error(response.response.data.message
-            , {
-                position: toast.POSITION.TOP_RIGHT,
-            })
+                , {
+                    position: toast.POSITION.TOP_RIGHT,
+                })
         }
 
     }
@@ -146,21 +144,24 @@ export default function SignUp() {
             <section className="signUp-section">
                 <div className="container">
 
-                    <div className="row main-w3layouts wrapper">
-                        <h1> SignUp Form</h1>
-                        <div className="main-agileinfo">
-                            <div className="agileits-top">
-                                <form>
-                                    <CustomInputFields className="text" value={fields.name} type="text" name="Username" placeholder="Username" required onChange={(e) => validateInput("name", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
-                                    {errorFields.name ? <label className="text-danger">{errorFields.name}</label> : null}
-                                    <CustomInputFields className="text email" value={fields.email} type="email" name="email" placeholder="Email" required onChange={(e) => validateInput("email", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
-                                    {errorFields.email ? <label className="text-danger">{errorFields.email}</label> : null}
-                                    <CustomInputFields className="text" value={fields.password} type="password" name="password" placeholder="Password" required onChange={(e) => validateInput("password", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
-                                    {errorFields.password ? <label className="text-danger">{errorFields.password}</label> : null}
-                                    <CustomButton type="button" className="btn btn-info text registerButton" onClick={handleSubmit} > Register </CustomButton>
-                                    {errorFields.err ? <h5 className="text-danger">{errorFields.err}</h5> : null}
-                                </form>
-                                <p> Already have account  <CustomButton className="loginBtn" onClick={navigateToLogin}>Login</CustomButton> </p>
+                    <div className="row main-w3layouts wrapper d-flex justify-content-center">
+                        <div className="signup_form">
+
+                            <h1> SignUp Form</h1>
+                            <div className="main-agileinfo">
+                                <div className="agileits-top">
+                                    <form>
+                                        <CustomInputFields className="text" value={fields.name} type="text" name="Username" placeholder="Username" required onChange={(e) => validateInput("name", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
+                                        {errorFields.name ? <label className="text-danger">{errorFields.name}</label> : null}
+                                        <CustomInputFields className="text email" value={fields.email} type="email" name="email" placeholder="Email" required onChange={(e) => validateInput("email", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
+                                        {errorFields.email ? <label className="text-danger">{errorFields.email}</label> : null}
+                                        <CustomInputFields className="text" value={fields.password} type="password" name="password" placeholder="Password" required onChange={(e) => validateInput("password", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
+                                        {errorFields.password ? <label className="text-danger">{errorFields.password}</label> : null}
+                                        <CustomButton type="button" className="btn btn-info text registerButton" onClick={handleSubmit} > Register </CustomButton>
+                                        {errorFields.err ? <h5 className="text-danger">{errorFields.err}</h5> : null}
+                                    </form>
+                                    <p> Already have account  <CustomButton className="loginBtn" onClick={navigateToLogin}>Login</CustomButton> </p>
+                                </div>
                             </div>
                         </div>
                     </div>

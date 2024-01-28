@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProduct, updateProduct } from "../../../../../../../redux/action";
 import { ERROR_MESSAGES } from "../../../../../../../shared/Constant";
 import CustomButton from "../../../../../../../components/atoms/customButton";
@@ -26,11 +26,13 @@ const productFormError = {
     error: ""
 }
 export default function EditProduct() {
+    const navigate = useNavigate()
     const [productFeilds, setProductFeilds] = useState(productFormInitialValue);
     const dispatch = useDispatch();
     const data = useSelector(state => state?.categoryReducer?.payload)
     const productData = useSelector(state => state?.singleProductReducer?.payload)
     const {id} = useParams();
+    console.log(id)
     const categories = data || [];
     const [productFeildsError, setProductFeildsError] = useState(productFormError)
     const [uploadpic, setUploadpic] = useState(null);
@@ -118,14 +120,14 @@ export default function EditProduct() {
             return;
         }
 
-        if (!uploadpic) {
-            setProductFeildsError({ error: ERROR_MESSAGES.SELECT_IMAGE })
-            return;
-        }
-        if (!categoryId) {
-            setProductFeildsError({ error: ERROR_MESSAGES.SELECT_CATEGORY })
-            return;
-        }
+        // if (!uploadpic) {
+        //     setProductFeildsError({ error: ERROR_MESSAGES.SELECT_IMAGE })
+        //     return;
+        // }
+        // if (!categoryId) {
+        //     setProductFeildsError({ error: ERROR_MESSAGES.SELECT_CATEGORY })
+        //     return;
+        // }
         const formData = new FormData();
         formData.append("productTitle", productTitle)
         formData.append("productDescription", productDescription)
@@ -133,7 +135,7 @@ export default function EditProduct() {
         formData.append("productQuantity", productQuantity)
         formData.append('file', uploadpic)
         formData.append("category_id", categoryId)
-        dispatch(updateProduct({id , formData}))
+        dispatch(updateProduct({id , formData ,handleResponse }))
         resetForm()
 
     }
@@ -150,6 +152,7 @@ export default function EditProduct() {
                 , {
                     position: toast.POSITION.TOP_RIGHT,
                 })
+                navigate("/admin/allProducts")
         }
 
         else {
@@ -163,6 +166,7 @@ export default function EditProduct() {
     useEffect(() => {
         dispatch(getCategory({}))
         dispatch(getProduct({id}))
+        setcategoryId(productData?.categoryId)
          setProductFeilds({
             productTitle: productData?.title,
             productDescription: productData?.description,
@@ -174,7 +178,7 @@ export default function EditProduct() {
     return (
         <>
             <section>
-                <div className="conatiner">
+                <div className="container">
                     <div className="row">
                         <div className="productForm" >
                             <h3> Edit Product </h3>
@@ -183,7 +187,7 @@ export default function EditProduct() {
                                 <div className="mb-3 row">
                                     <label htmlFor="staticEmail" className="col-sm-2 col-form-label" >Title </label>
                                     <div className="col-sm-10">
-                                        <CustomInputFields type="text" className="form-control" id="staticEmail" value={productFeilds?.productTitle} placeholder="abc..." onChange={(e) => validateInput("productTitle", e.target.value, 15, ERROR_MESSAGES, setProductFeildsError)} ></CustomInputFields>
+                                        <CustomInputFields type="text" className="form-control" id="staticEmail" value={productFeilds?.productTitle} placeholder="abc..." onChange={(e) => validateInput("productTitle", e.target.value, 50, ERROR_MESSAGES, setProductFeildsError)} ></CustomInputFields>
 
                                     </div>
                                     {productFeildsError.productTitle ? <label name="text-danger">{productFeildsError.productTitle}</label> : null}

@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUsersData } from "../../../../../redux/action";
 import CustomButton from "../../../../../components/atoms/customButton";
 import { useNavigate } from "react-router-dom";
+import AssignRoleModal from "./components/AssignRoleModal";
 
 export default function ShowUsers() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showAssignRolrModal , setShowAssignRolrModal] = useState(false);
+    const [assignRoleUserId , setAssignRoleUserId] = useState("");
     const userdata = useSelector(state => state?.registerReducer?.payload)
+    const searchString = useSelector(state => state?.searchedValueReducer)
     console.log(userdata)
     const data = userdata || [];
     const HeadingArray = {
@@ -20,8 +24,8 @@ export default function ShowUsers() {
             value: "email"
         },
         ROLE: {
-            title: "Contact",
-            value: "contact"
+            title: "Role",
+            value: "Role"
         },
         ACTION:
         {
@@ -37,12 +41,17 @@ export default function ShowUsers() {
         navigate(`update/${id}`)
 
     }
+
+    const handleShowAssignRoleModal = (id) =>{
+        setAssignRoleUserId(id)
+        setShowAssignRolrModal(true)
+    }
     useEffect(() => {
-        dispatch(getUsersData({}))
-    }, [])
+        dispatch(getUsersData({searchString}))
+    }, [searchString])
     return (
         <>
-
+         <AssignRoleModal show={showAssignRolrModal} setShow={setShowAssignRolrModal} userId={assignRoleUserId} />
             <section>
                 <div className="container">
 
@@ -73,17 +82,13 @@ export default function ShowUsers() {
                                                 <td>{val.role}</td>
                                                 <td> <div className="d-flex justify-content-between ">
                                                     <CustomButton className="btn btn-danger" onClick={() => deleteSelectedUser(val._id)}> Delete</CustomButton>
-                                                    {/* <button onClick={() => deleteSelectedUser(val._id)}>
-                                                        Delete
-                                                    </button> */}
+                                                    <CustomButton  type="button" className="btn btn-info" onClick={()=>handleShowAssignRoleModal(val._id)}>Assign Role</CustomButton>
                                                     <CustomButton className="btn btn-primary" onClick={() => updateUser(val._id)}> Update </CustomButton>
 
                                                 </div> </td>
                                             </tr>
                                         );
                                     })}
-
-
                                 </tbody>
                             </table>
                         </div>

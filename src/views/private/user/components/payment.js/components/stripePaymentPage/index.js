@@ -1,5 +1,6 @@
 import React from "react";
 import { loadStripe } from '@stripe/stripe-js';
+import './style.css'
 import {
     PaymentElement,
     CardElement,
@@ -8,16 +9,23 @@ import {
     useElements,
 } from '@stripe/react-stripe-js';
 import { useLocation, useNavigate } from "react-router-dom";
-import { errorFunction } from "../../../../Shared/Context";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { cartRoutes, routes } from "../../../../../../../shared/Constant";
+import { editOrderStatus } from "../../../../../../../redux/action";
+import { useDispatch } from "react-redux";
 
 
 export function StripePaymentPage() {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const client = location.state?.data || [];
-    const user = location.state?.user;
+    const address = location.state?.userAddress;
+    console.log(address)
+    const orderId = location.state?.orderId
+    const User = location.state?.userDetails
     const options = {
-        // passing the client secret obtained from the server
         clientSecret: client.clientSecret,
     };
 
@@ -28,23 +36,42 @@ export function StripePaymentPage() {
 
         const handleSubmit = async (event) => {
             event.preventDefault();
-            // Confirm the payment with the card element
             const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
                 clientSecret,
                 {
                     payment_method: {
                         card: elements.getElement(CardElement),
+                        billing_details: {
+                            name: User.name,
+                            email: User.email,
+                            address: {
+                                city: address.City,
+                                country: address.Country,
+                                line1: address.Line1,
+                                line2: address.Line2,
+                                postal_code: address.PostalCode,
+                                state: address.State,
+                            },
+                        },
                     },
-
                 }
             );
 
             if (confirmError) {
+                console.log(orderId)
                 console.error("Error confirming payment:", confirmError.message);
-                navigate("/buyProduct")
-                errorFunction(confirmError.message)
+                navigate("/" + cartRoutes.ERROR_PAGE, { state: { id: orderId } })
+                toast.error(confirmError.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+
             } else if (paymentIntent.status === "succeeded") {
-                navigate("/sucessPage")
+                console.log(paymentIntent)
+                navigate("/success-Page")
+
+                const status = false;
+                const id = orderId
+                dispatch(editOrderStatus({id , status}))
                 console.log("Payment succeeded!");
             }
         };
@@ -65,10 +92,12 @@ export function StripePaymentPage() {
 
     return (
         <>
-            <section>
+            <section className="stripe-container">
                 <div className="container">
-                    <div className="row">
-
+                    <div className="row gap-5">
+                        <h3>
+                            Add Card Details
+                        </h3>
                         <Elements stripe={stripePromise} options={options} >
                             <CheckoutForm />
                         </Elements>
