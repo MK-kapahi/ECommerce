@@ -41,20 +41,8 @@ export default function VendorHome() {
     {
       title: "Category",
       value: "category"
-    },
-    ACTION:
-    {
-      title: "Action"
     }
   };
-
-  const deleteSelectedUser = (id) => {
-    // dispatch(deleteProduct({ id }))
-  }
-
-  const updateUser = (id) => {
-    // navigate(`update/${id}`);
-  }
   useEffect(() => {
     dispatch(getAllProducts({ skip, limit, userId}))
   }, [limit, skip])
@@ -91,14 +79,7 @@ export default function VendorHome() {
                         <td>{val.price}</td>
                         <td>{val.quantity}</td>
                         <td>{val?.categoryId?.categoryName}</td>
-                        <td> <div className="d-flex justify-content-between ">
-                          <CustomButton className="btn btn-danger" onClick={() => deleteSelectedUser(val._id)}> Delete</CustomButton>
-                          {/* <button onClick={() => deleteSelectedUser(val._id)}>
-                                                        Delete
-                                                    </button> */}
-                          <CustomButton className="btn btn-primary" onClick={() => updateUser(val._id)}> Update </CustomButton>
 
-                        </div> </td>
                       </tr>
                     );
                   })}

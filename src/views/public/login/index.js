@@ -3,7 +3,7 @@ import CustomInputFields from "../../../components/atoms/customInput";
 import "./style.css"
 import CustomButton from "../../../components/atoms/customButton";
 import { useNavigate } from "react-router-dom";
-import { ERROR_MESSAGES, REGEX, URL, adminRoutes, routes, userRoutes, vendorRoutes } from "../../../shared/Constant";
+import { ERROR_MESSAGES, REGEX, adminRoutes, routes, userRoutes, vendorRoutes } from "../../../shared/Constant";
 import { useDispatch } from "react-redux";
 import { LoginUser } from "../../../redux/action";
 import { toast } from "react-toastify";
@@ -24,6 +24,11 @@ export default function Login() {
     const dispatch = useDispatch()
     const invalidCharacterForEmail = "!#$%^&*()_-+=~`,<>/?;:'{}[]\\|\"\"";
     const arrOfInvalidChForEmail = invalidCharacterForEmail.split("");
+    const [showPassword, setShowPassword] = useState(false)
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const [fields, setFields] = useState(initialFeilds);
     const [errorFields, setErrorFields] = useState(errorInitialFeilds);
@@ -120,8 +125,7 @@ export default function Login() {
                 navigate(routes.VENDOR + "/" + vendorRoutes.DASHBOARD)
             }
 
-            if(res.data.data.role === 0)
-            {
+            if (res.data.data.role === 0) {
                 navigate(routes.NO_ROLE)
             }
         }
@@ -142,9 +146,19 @@ export default function Login() {
                                     {errorFields.email ? <label className="text-danger">{errorFields.email}</label> : null}
                                 </div>
                                 <div className="form-floating">
-                                    <CustomInputFields type="password" className="form-control" id="floatingPassword" placeholder="Password" required onChange={(e) => validateInput("password", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
+                                    <CustomInputFields   type={showPassword ? 'text' : 'password'} className="form-control" id="floatingPassword" placeholder="Password" required onChange={(e) => validateInput("password", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
                                     <label htmlFor="floatingPassword">Password</label>
                                     {errorFields.password ? <label className="text-danger">{errorFields.password}</label> : null}
+                        
+
+                                        <i
+                                            className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
+                                            onClick={togglePasswordVisibility}
+                                            style={{ cursor: 'pointer', position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}
+                                        >
+                                            <i className={showPassword ? "faEye" : "faEyeSlash"} />
+                                        </i>
+                
                                 </div>
 
                                 <div className="checkbox mb-3">

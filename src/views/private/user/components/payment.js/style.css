@@ -41,7 +41,7 @@
 }
 
 .submitButton {
-    width: 50%;
+    width: 50% !important;
 }
 
 
@@ -146,6 +146,7 @@
     height: 100px; */
     background: none;
     opacity: 1;
+    border-bottom: 2px solid black;
 
     a {
 
@@ -171,4 +172,9 @@
 .input-text
 {
     border: 1px solid black !important;
+}
+
+.material
+{
+    color: #000;
 }

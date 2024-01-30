@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProduct, updateProduct } from "../../../../../../../redux/action";
@@ -11,7 +11,7 @@ const productFormInitialValue = {
     productTitle: "",
     productDescription: "",
     productPrice: "",
-    productQuantity: null ,
+    productQuantity: null,
     productImage: "",
     categoryId: ""
 }
@@ -31,8 +31,7 @@ export default function EditProduct() {
     const dispatch = useDispatch();
     const data = useSelector(state => state?.categoryReducer?.payload)
     const productData = useSelector(state => state?.singleProductReducer?.payload)
-    const {id} = useParams();
-    console.log(id)
+    const { id } = useParams();
     const categories = data || [];
     const [productFeildsError, setProductFeildsError] = useState(productFormError)
     const [uploadpic, setUploadpic] = useState(null);
@@ -99,8 +98,6 @@ export default function EditProduct() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(uploadpic)
         const {
             productTitle,
             productDescription,
@@ -135,7 +132,7 @@ export default function EditProduct() {
         formData.append("productQuantity", productQuantity)
         formData.append('file', uploadpic)
         formData.append("category_id", categoryId)
-        dispatch(updateProduct({id , formData ,handleResponse }))
+        dispatch(updateProduct({ id, formData, handleResponse }))
         resetForm()
 
     }
@@ -152,7 +149,7 @@ export default function EditProduct() {
                 , {
                     position: toast.POSITION.TOP_RIGHT,
                 })
-                navigate("/admin/allProducts")
+            navigate("/admin/allProducts")
         }
 
         else {
@@ -165,15 +162,15 @@ export default function EditProduct() {
 
     useEffect(() => {
         dispatch(getCategory({}))
-        dispatch(getProduct({id}))
+        dispatch(getProduct({ id }))
         setcategoryId(productData?.categoryId)
-         setProductFeilds({
+        setProductFeilds({
             productTitle: productData?.title,
             productDescription: productData?.description,
             productPrice: productData?.price,
-            productQuantity: productData?.quantity ,
+            productQuantity: productData?.quantity,
             categoryId: productData?.categoryId
-         })
+        })
     }, [])
     return (
         <>
@@ -213,7 +210,7 @@ export default function EditProduct() {
                                         <CustomInputFields type="number" className="form-control" id="staticEmail2" value={productFeilds?.productQuantity} placeholder="91......" onChange={(e) => validateInput("productQuantity", e.target.value, 10, ERROR_MESSAGES, setProductFeildsError)}></CustomInputFields>
 
                                     </div>
-                                    {productFeildsError.productQuantity ? <label className="text-danger">{productFeildsError.productQuantity}</label> : null}
+                                    {productFeildsError?.productQuantity ? <label className="text-danger">{productFeildsError?.productQuantity}</label> : null}
                                 </div>
 
                                 <div className="mb-3 row">
@@ -222,17 +219,17 @@ export default function EditProduct() {
                                         <CustomInputFields type="file" className="form-control" id="staticEmail5" onChange={handelImageChange} ></CustomInputFields>
 
                                     </div>
-                                    {productFeildsError.productImage ? <label className="text-danger">{productFeildsError.productImage}</label> : null}
+                                    {productFeildsError?.productImage ? <label className="text-danger">{productFeildsError?.productImage}</label> : null}
                                 </div>
                                 <div className="mb-3 row justify-content-center">
                                     <div className="dropdown col-6">
                                         <select className="form-select" aria-label="Default select example" onChange={handleSelectedData}>
-                                            <option value={productFeilds.categoryId}>Select Category </option>
-                                            {categories.map((element) => {
+                                            <option value={productFeilds?.categoryId}>Select Category </option>
+                                            {categories?.map((element) => {
                                                 return (
 
                                                     <>
-                                                        <option value={element._id}>{element.categoryName}</option>
+                                                        <option value={element?._id}>{element?.categoryName}</option>
                                                     </>
 
                                                 )
@@ -243,7 +240,7 @@ export default function EditProduct() {
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-center">
-                                    {productFeildsError.error ? <h5 className="text-danger">{productFeildsError.error}</h5> : null}
+                                    {productFeildsError?.error ? <h5 className="text-danger">{productFeildsError?.error}</h5> : null}
                                 </div>
 
                                 <div className="mb-3 row button justify-content-center" >

@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAddress, getOrders } from '../../../../../redux/action';
+import Pagination from '../../../../../components/cells/customPagination.js';
 
 export default function ShowOrders() {
     let user = JSON.parse(localStorage.getItem("userInfo"))
     const id = user?._id
     const dispatch = useDispatch();
     const order = useSelector(state => state?.orderReducer?.payload)
+    const [itemPerPage, setItemPerPage] = useState(6)
+    const [skip, setSkip] = useState(0)
+    const [limit, setLimit] = useState(itemPerPage);
+    const [currentPage, setCurrentPage] = useState(1)
     const HeadingArray = {
         Total_Products: {
-            title: "Total_Product",
+            title: "Quantity",
             value: "title"
         },
         Product_Name: {
@@ -38,8 +43,8 @@ export default function ShowOrders() {
         },
     };
     useEffect(() => {
-        dispatch(getOrders({ id }))
-    })
+        dispatch(getOrders({ skip ,limit }))
+    },[limit , skip])
     return (
         <>
             <section>
@@ -64,7 +69,7 @@ export default function ShowOrders() {
                                 </thead>
                                 <tbody>
 
-                                    {order?.map((val) => {
+                                    {order?.result?.map((val) => {
                                         return (
                                             <tr key={val._id}>
                                                 <td>{val.product.length}</td>
@@ -96,7 +101,7 @@ export default function ShowOrders() {
                                 </tbody>
                             </table>
                         </div>
-                        {/* <Pagination currentPage={currentPage} itemsPerPage={itemPerPage} pageCount={Math.ceil(productData?.count / itemPerPage)} setSkip={setSkip} setCurrentPage={setCurrentPage} /> */}
+                        <Pagination currentPage={currentPage} itemsPerPage={itemPerPage} pageCount={Math.ceil(order?.count / itemPerPage)} setSkip={setSkip} setCurrentPage={setCurrentPage} />
                     </div>
                 </div>
             </section>

@@ -26,6 +26,11 @@ export default function SignUp() {
     const dispatch = useDispatch();
     const invalidCharacterForEmail = "!#$%^&*()_-+=~`,<>/?;:'{}[]\\|\"\"";
     const arrOfInvalidChForEmail = invalidCharacterForEmail.split("");
+    const [showPassword, setShowPassword] = useState(false)
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const [fields, setFields] = useState(initialFeilds);
     const [errorFields, setErrorFields] = useState(errorInitialFeilds);
@@ -155,7 +160,14 @@ export default function SignUp() {
                                         {errorFields.name ? <label className="text-danger">{errorFields.name}</label> : null}
                                         <CustomInputFields className="text email" value={fields.email} type="email" name="email" placeholder="Email" required onChange={(e) => validateInput("email", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
                                         {errorFields.email ? <label className="text-danger">{errorFields.email}</label> : null}
-                                        <CustomInputFields className="text" value={fields.password} type="password" name="password" placeholder="Password" required onChange={(e) => validateInput("password", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
+                                        <CustomInputFields type={showPassword ? 'text' : 'password'} value={fields.password} name="password" placeholder="Password" required onChange={(e) => validateInput("password", e.target.value, 40, ERROR_MESSAGES, setErrorFields)} />
+                                        <i
+                                            className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
+                                            onClick={togglePasswordVisibility}
+                                            style={{ cursor: 'pointer', position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}
+                                        >
+                                            <i className={showPassword ? "faEye" : "faEyeSlash"} />
+                                        </i>
                                         {errorFields.password ? <label className="text-danger">{errorFields.password}</label> : null}
                                         <CustomButton type="button" className="btn btn-info text registerButton" onClick={handleSubmit} > Register </CustomButton>
                                         {errorFields.err ? <h5 className="text-danger">{errorFields.err}</h5> : null}

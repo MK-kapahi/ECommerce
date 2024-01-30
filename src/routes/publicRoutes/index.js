@@ -33,9 +33,9 @@ import VendorHome from "../../views/private/vendor/home/index.js";
 export default function PublicRoutes() {
     const cookies = new Cookies();
     const navigate = useNavigate();
-    let token = cookies.get('token');
+    const token = cookies.get('token');
     const location = useLocation();
-    let user = JSON.parse(localStorage.getItem("userInfo"))
+    const user = JSON.parse(localStorage.getItem("userInfo"))
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false)
     const [isUser, setIsUser] = useState(false)
@@ -50,15 +50,18 @@ export default function PublicRoutes() {
         if (token) {
             setIsAuthenticated(true);
             if (user) {
-                if (user?.role == 1) {
-
-                    setIsAdmin(true)
-                }
-                if (user?.role == 2) {
-                    setIsUser(true)
-                }
-                if (user?.role === 3) {
-                    setIsVendor(true)
+                switch (user?.role) {
+                    case 1:
+                        setIsAdmin(true);
+                        break;
+                    case 2:
+                        setIsUser(true);
+                        break;
+                    case 3:
+                        setIsVendor(true);
+                        break;
+                   
+                    default:
                 }
             }
         }
@@ -72,8 +75,8 @@ export default function PublicRoutes() {
         <>
             {isAuthenticated && !isProcessingPage && !isStripePage && !isSuccessPage && !isErrorPage && <Navbar />}
             <Routes>
-                <Route exact path={routes.LOGIN} element={<Login />}></Route>
-                <Route exact path={routes.SIGNUP} element={<SignUp />}></Route>
+                {!isAuthenticated ? <Route exact path={routes.LOGIN} element={<Login />}></Route> : ""}
+                {!isAuthenticated ? <Route exact path={routes.SIGNUP} element={<SignUp />}></Route> : ""}
                 {isAdmin && < Route path={routes.ADMIN}>
 
                     <Route exact path={adminRoutes.DASHBOARD} element={<AdminHome />} />

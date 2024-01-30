@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./styleProfile.css"
 import { useDispatch, useSelector } from 'react-redux'
 import { getAddress, getOrders } from '../../../../../redux/action';
 import { IMAGEURL } from '../../../../../shared/Constant';
+import Pagination from '../../../../../components/cells/customPagination.js';
 
 export default function ProfilePage() {
     let user = JSON.parse(localStorage.getItem("userInfo"))
     const id = user?._id
+    const [itemPerPage, setItemPerPage] = useState(6)
+    const [skip, setSkip] = useState(0)
+    const [limit, setLimit] = useState(itemPerPage);
+    const [currentPage, setCurrentPage] = useState(1)
     const dispatch = useDispatch();
     const address = useSelector(state => state?.addressReducer?.payload)
     const order = useSelector(state => state?.orderReducer?.payload)
     useEffect(() => {
-        dispatch(getOrders({}))
+        dispatch(getOrders({skip ,limit }))
         dispatch(getAddress({ id }))
-    }, [])
+    }, [limit , skip])
     return (
         <><section>
             <div className='container'>
@@ -60,7 +65,7 @@ export default function ProfilePage() {
                             Your Orders
                         </h5>
                         <ul className='order-list d-flex align-content-center flex-column flex-wrap'>
-                            {order?.map((singleOrder) => (
+                            {order?.result?.map((singleOrder) => (
                                 <li key={singleOrder._id} className='order-list-item'>
                                     <div className='order-id'>
                                         Order Id : {singleOrder._id}
@@ -88,6 +93,7 @@ export default function ProfilePage() {
                         </ul>
                     </div>
                 </div>
+                <Pagination currentPage={currentPage} itemsPerPage={itemPerPage} pageCount={Math.ceil(order?.count / itemPerPage)} setSkip={setSkip} setCurrentPage={setCurrentPage} />
             </div>
         </section >
         </>
