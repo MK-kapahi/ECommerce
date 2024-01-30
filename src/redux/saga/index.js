@@ -4,7 +4,7 @@ import { ActionStates } from "../../redux/action/actionState";
 import { URL, apiEndPoint } from "../../shared/Constant";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { addAddress, getAllProducts, getCategory, getUsersData, setAddress, setAllProdcts, setCartElements, setCategory, setEditedCartElements, setOrders, setProduct, setUser, setUserData } from "../action";
+import { getAllProducts, getUsersData, setAddress, setAllProdcts, setCartElements, setCategory, setEditedCartElements, setOrders, setProduct, setUser, setUserData } from "../action";
 const option = {
     withCredentials: 'include',
 }
@@ -122,7 +122,7 @@ function* getUser(payload) {
 function* getProduct({ payload }) {
     try {
         const res = yield axios.get(
-            URL + apiEndPoint.GET_PRODUCT + "?limit=" + payload?.limit + "&skip=" + payload?.skip + '&char=' + `${payload?.searchString?.value || ""}` + '&categoryId=' + `${payload?.categoryId || ""}`+ '&userId=' + `${payload?.userId || ""}`, option
+            URL + apiEndPoint.GET_PRODUCT + "?limit=" + payload?.limit + "&skip=" + payload?.skip + '&char=' + `${payload?.searchString?.value || ""}` + '&categoryId=' + `${payload?.categoryId || ""}` + '&userId=' + `${payload?.userId || ""}`, option
         );
         yield put(setAllProdcts(res?.data));
     } catch (error) {
@@ -256,9 +256,17 @@ function* payPaypal({ payload }) {
 
 function* payByStripe({ payload }) {
     console.log(payload)
-    const res = yield axios.post(URL + apiEndPoint.STRIPE_PAY, { product: payload?.priceOfItem, User: payload?.currentUser, userAddress: payload?.userAddessData }, option)
-    payload?.handleStripeResponse(res)
-    console.log(res)
+    try {
+
+        const res = yield axios.post(URL + apiEndPoint.STRIPE_PAY, { product: payload?.priceOfItem, User: payload?.currentUser, userAddress: payload?.userAddessData }, option)
+        payload?.handleStripeResponse(res)
+        console.log(res)
+    } catch (error) {
+        toast.error(error?.response?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+        })
+        console.log(error)
+    }
 }
 
 function* confirmPayment({ payload }) {
@@ -303,7 +311,7 @@ function* getAddress({ payload }) {
 function* changeRole({ payload }) {
     try {
         console.log(payload)
-        const response = yield axios.put(URL + apiEndPoint.CHANGE_ROLE + payload?.userId, {role : payload?.role}, option)
+        const response = yield axios.put(URL + apiEndPoint.CHANGE_ROLE + payload?.userId, { role: payload?.role }, option)
         toast.success(response.data, {
             position: toast.POSITION.TOP_RIGHT,
         })
@@ -313,30 +321,26 @@ function* changeRole({ payload }) {
     }
 }
 
-function* editOrderStatus({payload})
-{
+function* editOrderStatus({ payload }) {
     console.log(payload)
-    try
-    {
-        const response = yield axios.put(URL+apiEndPoint.EDIT_STATUS+payload?.id , {orderStatus : payload?.status} , option)
+    try {
+        const response = yield axios.put(URL + apiEndPoint.EDIT_STATUS + payload?.id, { orderStatus: payload?.status }, option)
         console.log(response)
-    }catch(error)
-    {
+    } catch (error) {
         console.log(error)
     }
 }
 
-function* getOrders({payload})
-{
-  try{
-    const response = yield axios.get(URL+apiEndPoint.ORDERS , option)
-    // console.log(response)
-    yield put(setOrders(response.data))
-  }catch(error)
-  {
-    console.log(error)
-  }
-} 
+function* getOrders({ payload }) {
+    try {
+        console.log(payload)
+        const response = yield axios.get(URL + apiEndPoint.ORDERS +"?limit=" + payload?.limit + "&skip=" + payload?.skip , option)
+        // console.log(response)
+        yield put(setOrders(response.data))
+    } catch (error) {
+        console.log(error)
+    }
+}
 function* Saga() {
     yield all([
         takeLatest(ActionStates.LOGIN, login),
@@ -362,8 +366,8 @@ function* Saga() {
         takeLatest(ActionStates.ADD_ADDRESS, createAddress),
         takeLatest(ActionStates.GET_ADDRESS, getAddress),
         takeLatest(ActionStates.ASSIGN_ROLE, changeRole),
-        takeLatest(ActionStates.EDIT_ORDER_STATUS , editOrderStatus),
-        takeLatest(ActionStates.GET_ORDERS , getOrders)
+        takeLatest(ActionStates.EDIT_ORDER_STATUS, editOrderStatus),
+        takeLatest(ActionStates.GET_ORDERS, getOrders)
     ])
 }
 

@@ -14,7 +14,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     const data = useSelector(state => state?.categoryReducer?.payload)
     const [searchValue, setSearchValue] = useState("")
-    let user = JSON.parse(localStorage.getItem("userInfo"))
+    const user = JSON.parse(localStorage.getItem("userInfo"))
     const [isAdmin, setIsAdmin] = useState(false)
     const [isUser, setIsUser] = useState(false)
     const [isVendor, setIsVendor] = useState(false)
@@ -38,7 +38,7 @@ export default function Navbar() {
     }, [])
     const handleResponse = (response) => {
         navigate('/login')
-        if (response.status === 200) {
+        if (response?.status === 200) {
 
             toast.success("logout  Successfullly "
                 , {
@@ -47,7 +47,7 @@ export default function Navbar() {
         }
 
         else {
-            toast.error(response.response.data.message
+            toast.error(response?.response?.data?.message
                 , {
                     position: toast.POSITION.TOP_RIGHT,
                 })
@@ -80,7 +80,7 @@ export default function Navbar() {
     }
 
     const moveToProfilePage = () => {
-        navigate(routes.USER + "/" + userRoutes.PROFILE)
+        navigate(routes?.USER + "/" + userRoutes.PROFILE)
     }
     const isShowProductsPage = location.pathname === "/admin/allProducts";
     const isUserShowProductsPage = location.pathname === "/user/dashboard";

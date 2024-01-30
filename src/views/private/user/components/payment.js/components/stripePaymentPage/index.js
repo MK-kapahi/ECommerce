@@ -22,7 +22,6 @@ export function StripePaymentPage() {
     const dispatch = useDispatch();
     const client = location.state?.data || [];
     const address = location.state?.userAddress;
-    console.log(address)
     const orderId = location.state?.orderId
     const User = location.state?.userDetails
     const options = {

@@ -30,6 +30,8 @@ export default function CreateProduct() {
 
     const [productFeilds, setProductFeilds] = useState(productFormInitialValue);
     const dispatch = useDispatch();
+    let user = JSON.parse(localStorage.getItem("userInfo"))
+    const id = user?._id
     const data = useSelector(state => state?.categoryReducer?.payload)
     const categories = data || [];
     const [productFeildsError, setProductFeildsError] = useState(productFormError)
@@ -135,6 +137,7 @@ export default function CreateProduct() {
         formData.append("productQuantity", productQuantity)
         formData.append('file', uploadpic)
         formData.append("category_id", categoryId)
+        formData.append("id",id)
 
         dispatch(createProduct({ formData, handleResponse }))
         resetForm()

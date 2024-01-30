@@ -82,7 +82,7 @@ export default function Cart() {
     return (
         <>
             <section>
-                <div className="container">
+                <div className="container position-relative">
                     <div className="row d-flex justify-content-center">
                         <div className="col d-flex justify-content-center">
                             <div className="shopping-cart d-flex flex-row-reverse ">
